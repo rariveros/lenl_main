@@ -61,3 +61,17 @@ def sparse_D(Nx):
     D2 = sparse.lil_matrix(D2)
     D2[-1, -1] = 0
     return D2
+
+###    FIT FUNCTIONS    ###
+
+def fit_criticalpower_01(x, A, c, noise):
+    return A * (((x - c) + ((x - c) ** 2 + 2 * noise) ** 0.5) / 2) ** 0.5
+
+
+def fit_criticalpower_02(x, A, c, noise):
+    return A * (((x ** 2 - c ** 2) + ((x ** 2 - c ** 2) ** 2 + 2 * noise) ** 0.5) / 2) ** 0.5
+
+
+def fit_criticalpower_03(x, A, c, n, noise):
+    return A * (((x - c) + ((x - c) ** 2 + 2 * noise) ** 0.5) / 2) ** n
+
