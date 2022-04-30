@@ -62,6 +62,43 @@ def sparse_D(Nx):
     D2[-1, -1] = 0
     return D2
 
+###    FILTER FUNCTIONS    ###
+
+def filtro_array(n, funcion):
+    # the larger n is, the smoother curve will be
+    b = [1.0 / n] * n
+    a = 1
+    Z_filtered = filtfilt(b, a, funcion)
+    return Z_filtered
+
+def filtro_superficie(Z, intensidad, sentido):
+    X_len = len(Z[:, 0])
+    Y_len = len(Z[0, :])
+    FILT = np.zeros((X_len, Y_len))
+    if sentido == 'X':
+        for i in range(X_len):
+            filtered = filtro_array(intensidad, Z[i, :])
+            FILT[i, :] = filtered
+    elif sentido == 'Y':
+        for i in range(Y_len):
+            filtered = filtro_array(intensidad, Z[:, i])
+            FILT[:, i] = filtered
+    elif sentido == 'XY':
+        for i in range(X_len):
+            filtered = filtro_array(intensidad, Z[i, :])
+            FILT[i, :] = filtered
+        for i in range(Y_len):
+            filtered = filtro_array(intensidad, FILT[:, i])
+            FILT[:, i] = filtered
+    elif sentido == 'YX':
+        for i in range(Y_len):
+            filtered = filtro_array(intensidad, Z[:, i])
+            FILT[:, i] = filtered
+        for i in range(X_len):
+            filtered = filtro_array(intensidad, FILT[i, :])
+            FILT[i, :] = filtered
+    return FILT
+
 ###    FIT FUNCTIONS    ###
 
 def fit_criticalpower_01(x, A, c, noise):

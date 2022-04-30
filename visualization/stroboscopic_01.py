@@ -16,7 +16,7 @@ if __name__ == '__main__':
     #plt.show()
     index_cresta_x = np.argmax(Z_mm[0, :])
 
-    sample_rate = 400
+    sample_rate = 200
     Nt = int(len(Z_mm[:, index_cresta_x]))
 
     yf = fft(Z_mm[:, index_cresta_x])
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     #plt.show()
 
     index_freq = np.argmin(yf)
-    period = 1 / 7.46
+    period = 1 / xf[index_freq]
 
     T_aux01 = np.zeros(Nt)
     #correr eje del tiempo y hacer primer maximo en t=0
