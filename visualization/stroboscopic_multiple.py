@@ -68,7 +68,7 @@ if __name__ == '__main__':
         pcm = plt.pcolormesh(X_mm, np.arange(len(Z_strobo_np[:, 0])), Z_strobo_np, norm=norm, cmap='seismic',
                              shading='auto')
         cbar = plt.colorbar(pcm, shrink=1)
-        cbar.set_label('$\eta(x, t)$', rotation=0, size=20, labelpad=-27, y=1.1)
+        cbar.set_label('$|\psi(x, t)|$', rotation=0, size=20, labelpad=-27, y=1.1)
         plt.title('$\Gamma_0 = $' + str(GAMMA_0).split(".")[0] + '.' + str(GAMMA_0).split(".")[1][0:2] + '   $f_{forc} = $' + str(forcing_freq) + ' hz', size='15')
         plt.xlim([X_mm[0], X_mm[-1]])
         plt.xlabel('$x$', size='20')

@@ -15,7 +15,7 @@ if __name__ == '__main__':
     Z_mm = np.loadtxt(directory + '/Z_mm.txt', delimiter=',')
 
     ###    Obteniendo información de medidas experimentales    ###
-    zero_fix = 'no'  # Activar para solitones, no para patrones
+    zero_fix = 'yes'  # Activar para solitones, no para patrones
 
     Nx = len(X_mm)
     Nt = len(T_s)
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     forcing_freq = float(name_list[1].split("=")[-1])
     GAMMA_0 = int(((((forcing_freq / 2) / (2 * np.pi)) ** 2) * (a / 12) * 0.5) * 100) * 0.01
 
-    fps = 400
+    fps = 200
     period_fps = int(fps * (2 / forcing_freq))
     print(period_fps)
     period_error_range = 8
@@ -63,10 +63,11 @@ if __name__ == '__main__':
     np.savetxt(directory + '/Z_mm_stroboscopic.txt', Z_strobo_np, delimiter=',')
 
     ###    Generando y guardando espaciotemporal de vista estroboscopica     ###
-    norm = TwoSlopeNorm(vmin=np.amin(Z_strobo_np), vcenter=0, vmax=np.amax(Z_strobo_np))
-    pcm = plt.pcolormesh(X_mm, np.arange(len(Z_strobo_np[:, 0])), Z_strobo_np, norm = norm, cmap='seismic', shading='auto')
+    #norm = TwoSlopeNorm(vmin=np.amin(Z_strobo_np), vcenter=0, vmax=np.amax(Z_strobo_np)) # pattern o multi-soliton
+    norm = TwoSlopeNorm(vmin=np.amin(Z_strobo_np), vcenter=np.amax(Z_strobo_np) / 2, vmax=np.amax(Z_strobo_np))  # 1-soliton
+    pcm = plt.pcolormesh(X_mm, np.arange(len(Z_strobo_np[:, 0])), Z_strobo_np, norm = norm, cmap='jet', shading='auto')
     cbar = plt.colorbar(pcm, shrink=1)
-    cbar.set_label('$\eta(x, t)$', rotation=0, size=20, labelpad=-27, y=1.1)
+    cbar.set_label('$Re(\psi)$', rotation=0, size=20, labelpad=-27, y=1.1)
     plt.title('$\Gamma_0 = $' + str(GAMMA_0) + '   $f_{forc} = $' + str(forcing_freq) + ' hz', size='15')
     plt.xlim([X_mm[0], X_mm[-1]])
     plt.xlabel('$x$', size='20')
